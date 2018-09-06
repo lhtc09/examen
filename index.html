@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Saludcita</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="autor" content="Lenin Tenecela">
+	<meta name="description" content="Examen SW2">
+	<!-- BOOTSTRAP -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<!-- ANGULAR JS -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.10/angular.min.js"></script>
+	<!-- ANGULAR UI-ROUTER -->
+	<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.19/angular-ui-router.js"></script>  -->
+	<!-- <script type="text/javascript" src="../js/rutas.js"></script> -->
+	<!-- <script type="text/javascript" src="../js/validaciones.js"></script> -->
+
+</head>
+<body ng-app="examen">
+	<script type="text/javascript">
+		function numdependientes(){
+			var dependientes = parseInt(document.datosseguro.dependientes.value);
+			var cuotaxdependientes = 0;
+			console.log(dependientes);
+			switch (dependientes) {
+				case 0:
+				cuotaxdependientes = 30;
+
+				break;
+				case 1:
+				cuotaxdependientes = 60;
+				break;
+				case 2:
+				cuotaxdependientes = 90;
+				break;
+				case 3:
+				cuotaxdependientes = 100;
+				break;
+				case 4:
+				cuotaxdependientes = 120;
+				break;
+				case 5:
+				alert("Sólo se permiten hasta 4 cargas familiares en linea.\n Su caso será analizado por un ejecutivo.\n El cálculo del seguro es parcial. Gracias")
+				break;
+				case 6:
+				alert("Sólo se permiten hasta 4 cargas familiares en linea.\n Su caso será analizado por un ejecutivo.\n El cálculo del seguro es parcial. Gracias")
+				break;
+				case 7:
+				alert("Sólo se permiten hasta 4 cargas familiares en linea.\n Su caso será analizado por un ejecutivo.\n El cálculo del seguro es parcial. Gracias")
+				break;
+				case 8:
+				alert("Sólo se permiten hasta 4 cargas familiares en linea.\n Su caso será analizado por un ejecutivo.\n El cálculo del seguro es parcial. Gracias")
+				break;
+				case 9:
+				alert("Sólo se permiten hasta 4 cargas familiares en linea.\n Su caso será analizado por un ejecutivo.\n El cálculo del seguro es parcial. Gracias")
+				break;
+				default:
+				cuotaxdependientes = 0;
+				break;
+			}
+			console.log(cuotaxdependientes);
+			return cuotaxdependientes;
+		}
+		function calcular(){
+			var edad = document.datosseguro.edad.value;
+			var sexo = document.datosseguro.sexo.value;
+			var civil = document.datosseguro.civil.value;
+			var preexistencias = document.datosseguro.preexistencias.value;
+			cuota = numdependientes();
+			console.log(cuota);
+			if(edad>=18 && edad<=40){
+				if(sexo=="Mujer"){
+					if(civil=="Casado"){
+						cuota+=20;
+					}else{
+						cuota+=10
+					}
+				}else{
+					if (civil=="Soltero") {
+						cuota+=40
+					}
+				}
+			}
+			else if (edad>=41 && edad<=60) {
+				if (sexo=="Mujer") {
+					if (preexistencias=="Osteoporosis") {
+						cuota+=35
+					}
+				} else{
+					if (preexistencias=="Infarto") {
+						cuota+=50
+					}
+				}
+			} else{
+				if (sexo=="Mujer") {
+					if (preexistencias=="Diabetes" || preexistencias=="Cancer") {
+						cuota+=60
+					}
+				} else{
+					if (preexistencias=="Diabetes" || preexistencias=="Cancer") {
+						cuota+=50
+					}
+				}
+			}
+			console.log(cuota);
+			document.calculoseguro.cuotatotal.value=cuota;
+			document.getElementById('contratar').style.display = 'block';
+			return cuota;
+		}
+		function validaedad(){
+			var edad = document.datosseguro.edad.value;
+			var patron = /^\d*$/;
+			if (!patron.test(edad)) {
+				alert("Debe ingresar un número entero")
+				document.datosseguro.edad.value="";
+				document.datosseguro.edad.focus();
+				return false;
+			}
+			if (edad < 18 || edad > 75){
+				alert("No tiene edad requerida para contratar un seguro.");
+				document.datosseguro.edad.value="";
+				document.datosseguro.edad.focus();
+				return false;
+			}
+			return true;
+		}
+		function validadependientes(){
+			var dependientes = document.datosseguro.dependientes.value;
+			var patron = /^\d*$/;
+			if (!patron.test(dependientes)) {
+				alert("Debe ingresar un número entero")
+				document.datosseguro.dependientes.value="";
+				document.datosseguro.dependientes.focus();
+				return false;
+			}
+			if(dependientes<0 || dependientes>9){
+				alert("Debe ingresar un número entero entre 0 y 9");
+				document.datosseguro.dependientes.value="";
+				document.datosseguro.dependientes.focus();
+				return false;
+			}
+			console.log(document.datosseguro.ciudad.value);
+			console.log(document.datosseguro.edad.value);
+			console.log(document.datosseguro.sexo.value);
+			console.log(document.datosseguro.civil.value);
+			console.log(document.datosseguro.preexistencias.value);
+			console.log(document.datosseguro.dependientes.value);
+			return true;
+		}
+		function contratar(){
+			document.getElementById('cliente').style.display = 'block';
+			document.getElementById('correo').style.display='none';
+		}
+		function enviarcorreo(){
+			document.getElementById('correo').style.display ='block';
+			document.getElementById('cliente').style.display='none';
+		}
+		function gracias(){
+			alert("Estimado " + document.datoscliente.nombrescliente.value + "\nSu pago está en proceso de confirmación.\n Un ejecutivo lo contactará para la firma del contrato.\nSaludcita agradece su confianza");
+			document.getElementById('correo').style.display ='none';
+			document.getElementById('cliente').style.display='none';
+			document.getElementById('contratar').style.display='none';
+			document.getElementById('mailcliente').value="";
+			document.getElementById('nombrescliente').value="";
+			document.getElementById('edad').value="";
+			document.getElementById('dependientes').value="";
+			document.getElementById('ciudad').focus();
+		}
+		function validatexto(){
+			var nombrescliente = document.getElementById('nombrescliente');
+			var patron = /\D[A-Za-zÁÉÍÓÚáéíóú]{30}/;
+			if (nombrescliente!="") {
+				if (!patron.test(nombrescliente)) {
+					alert("Debe ingresar sólo letras.\nSe permiten tilde y guion");
+					document.getElementById('nombrescliente').value="";
+					document.getElementById('nombrescliente').focus();
+					return false;
+				}
+				return true;
+			}
+		}
+	</script>
+	<div><h1>Saludcita</h1></div>
+	<section id="variante" class="container">
+		<!-- FORMULARIO DE USUARIOS DEL SISTEMA REGISTRO-->
+		<div id="cuerpo" class="row">
+			<h3>FORMULARIO SEGUROS</h3>
+			<form class="form-horizontal" name="datosseguro">
+		    	<div class="form-group">
+			        <label class="col-sm-offset-1 col-sm-2 control-label" for="ciudad">Ciudad:</label>
+			        <div class="col-sm-4">
+			        	<select class="form-control" type="text" id="ciudad" required title="Saludcita sólo tiene cobertura en: GUAYAQUIL QUITO CUENCA MACHALA" ng-model= "seguro.ciudad">
+			        		<option value="Cuenca">Cuenca</option>
+						    <option value="Guayaquil">Guayaquil</option>
+						    <option value="Machala">Machala</option>
+						    <option value="Quito">Quito</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+			        <label class="col-sm-offset-1 col-sm-2 control-label" for="edad">Edad:</label>
+			        <div class="col-sm-4">
+			          <input class="form-control" type="number" id="edad" size="2" max="75" min="18" maxlength="2" autocomplete="on" placeholder="Edad" required pattern="[0,9]{2}" title="Debe tener entre 18 y 75 años para la cobertura" ng-model="seguro.edad" onchange="validaedad()">
+			        </div>
+			    </div>
+			    <div class="form-group">
+			        <label class="col-sm-offset-1 col-sm-2 control-label" for="sexo">Sexo:</label>
+			        <div class="col-sm-4">
+			          <select class="form-control" type="text" id="sexo" required title="Elija su sexo" ng-model="seguro.sexo">
+			          	<option value="Mujer">Mujer</option>
+			          	<option value="Hombre">Hombre</option>
+			          </select>
+			        </div>
+			    </div>
+			    <div class="form-group">
+			        <label class="col-sm-offset-1 col-sm-2 control-label" for="civil">Estado Civil:</label>
+			        <div class="col-sm-4">
+			          <select class="form-control" type="text" id="civil" required title="Seleccione su estado civil, para el seguro Unión Libre se considera Casado" ng-model="seguro.civil">
+			          	<option value="Soltero">Soltero</option>
+			          	<option value="Casado">Casado</option>
+			          	<option value="Viudo">Viudo</option>
+			          	<option value="Divorciado">Divorciado</option>
+			          </select>
+			        </div>
+			    </div>
+			    <div class="form-group">
+			    	<label class="col-sm-offset-1 col-sm-2 control-label" for="preexistencias">Enfermedades:</label>
+			    	<div>
+			    		<select class="form-control" type="text" id="preexistencias" required title="Seleccione una de las enfermedades en caso de padecer" ng-model="seguro.preexistencias">
+			    			<option value="Ninguna">Ninguna</option>
+				          	<option value="Osteoporosis">Osteoporosis</option>
+				          	<option value="Infarto">Infarto</option>
+				          	<option value="Diabetes">Diabetes</option>
+				          	<option value="Cancer">Cáncer</option>
+				        </select>
+				    </div>
+				</div>
+				<div class="form-group">
+			        <label class="col-sm-offset-1 col-sm-2 control-label" for="dependientes">Nº de dependientes:</label>
+			        <div class="col-sm-4">
+			        	<input class="form-control" type="number" size="1" maxlength="1" max="9" min="0" id="dependientes" autocomplete="on" placeholder="Cargas familiares" ng-model="seguro.dependientes" onchange="validadependientes()">
+			        </div>
+			    </div>
+			    <div class="form-group">
+			        <div class="col-sm-offset-5 col-sm-7">
+			          <button type="button" class="btn btn-success btn-lg" onclick="calcular()">Calcular Seguro</button>
+			        </div>
+			    </div>
+			</form>
+		</div>
+	    <div>
+	    	<h3>VALOR A PAGAR</h3>
+	    	<form class="form-horizontal" name="calculoseguro">
+	    		<div class="form-group">
+	    			<label class="col-sm-offset-1 col-sm-2 control-label" for="cuotatotal">Cuota Mensual</label>
+	    			<div>
+	    				<input class="form-control" type="number" id="cuotatotal" size="3" maxlength="3" required ng-model="seguro.cuotatotal">
+	    			</div>		      		
+		      	</div>	    		
+	    	</form>
+	    </div>
+	    <div id="contratar" style="display: none;">
+	    	<h3>Contrate su Seguro</h3>
+	    	<div>
+	    		<label>¿Desea contratar su seguro?</label>
+	    		<button type="button" class="btn btn-success btn-md" onclick="contratar()">SI</button>
+	    		<button type="button" class="btn btn-danger btn-md" onclick="enviarcorreo()">NO</button>
+	    	</div>
+	    </div>
+	    <div id="cliente" name="cliente" style="display: none;">
+	    	<h3>Ingrese sus datos personales</h3>
+	    	<div>
+	    		<form id="datoscliente" name="datoscliente">
+	    			<div>
+	    				<label>Nombres</label>
+	    				<input type="text" id="nombrescliente" maxlength="30" name="nombrescliente" required title="Debe ingresar primero los apellidos y luego el nombre(s)" onchange="validatexto()">
+	    			</div>
+	    			<div>
+	    				<label>Correo</label>
+	    				<input type="mail" id="mailcliente" maxlength="30" name="mailcliente" required pattern="/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i/" title="Ingresar su correo electrónico">
+	    			</div>
+	    			<div>
+	    				<label>Elija su forma de Pago:</label>
+	    				<div>
+	    					<select>
+	    						<option>Tarjeta de Crédito</option>
+	    						<option>PayPal</option>
+	    					</select>
+	    				</div>
+	    			</div>
+	    			<button onclick="gracias()">Pagar</button>
+	    		</form>
+	    	</div>
+	    </div>
+	    <div id="correo" style="display: none;">
+	    	<h3>Ingrese sus datos personales</h3>
+	    	<div>
+	    		<form id="datoscliente">
+	    			<label>Nombres</label>
+	    			<input type="text" id="nombrescliente" maxlength="30" name="nombrescliente" required pattern="/[A-Za-zñÑ-áéíóúÁÉÍÓÚ\s\t-]/" title="Debe ingresar sus nombres primero los apellidos y luego el nombre(s)">
+	    			<label>Correo</label>
+	    			<input type="mail" id="mailcliente" maxlength="30" name="mailcliente" required pattern="/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i/" title="Ingresar su correo electrónico">
+	    			<button>Enviar Cotización</button>
+	    </div>
+	</section>
+</body>
+</html>
